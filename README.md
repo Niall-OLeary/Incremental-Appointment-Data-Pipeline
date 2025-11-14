@@ -1,4 +1,4 @@
-# Incremental-Appointment-Data-Pipeline
+# Incremental Appointment Data Pipeline
 
 ## Description
 This project improves the data ingestion process by optimizing the pipeline that loads data into Snowflake.  
