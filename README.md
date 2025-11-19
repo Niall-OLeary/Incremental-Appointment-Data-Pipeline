@@ -16,8 +16,8 @@ Challenges included:
 ## Solution
 To address these issues, the project implements:  
 
-1. **Daily Incremental Uploads**  
-   - Only new or updated rows are uploaded daily, rather than a full refresh.  
+1. **Daily Incremental Exports**  
+   - Only new or updated rows are exported from the CRM, rather than contract-to-date.  
 
 2. **Automated Loading via S3 and Snowpipe**  
    - Data is staged in an **S3 bucket**.  
@@ -26,7 +26,7 @@ To address these issues, the project implements:
 
 3. **Cost Optimization**  
    - **S3 Lifecycle**: After 30 days, older files are moved to deep glacial storage to reduce cost.  
-   - **Views** in Snowflake are used to avoid unnecessary storage costs, as Snowflake pricing splits into compute and storage.  
+   - **Views** in Snowflake are used to avoid unnecessary storage costs, as Snowflake pricing splits compute and storage.  
    - **Stage cleanup**: Data is deleted from the Snowflake stage after 4 days, using S3 as the cheaper long-term storage.  
 
 4. **Error Handling**  
