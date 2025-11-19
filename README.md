@@ -5,22 +5,44 @@ This project improves the data ingestion process by optimizing the pipeline that
 It focuses on automating daily incremental uploads, reducing failures, and cutting costs while maintaining data accessibility.
 
 ## Current Business Problem
-The existing infrastructure pushed **12 months/all-time data through the pipeline every single morning**.  
+The existing infrastructure pushed **contract-to-date data through the pipeline every day**.  
 As the dataset grew, the uploads increasingly failed, causing delays and inconsistencies in data availability.
 
 Challenges included:  
 - Full refresh every morning was time-consuming and resource-intensive  
 - Larger uploads often failed  
-- Snowflake storage costs increased due to frequent full uploads  
+- Snowflake costs (both storage and compute) increased due to frequent full uploads  
 
 ## Solution
-To address these issues, the project implements:  
+To address these issues, the project implemented:  
 
 1. **Daily Incremental Exports**  
    - Only new or updated rows are exported from the CRM, rather than contract-to-date.  
 
 2. **Automated Loading via S3 and Snowpipe**  
-   - Data is staged in an **S3 bucket**.  
+   - Data is staged in an **S3 bucket**. <details> <summary><strong>Click to view SQL Script</strong></summary>
+```sql
+-- creates storage integration. Connects to the s3 bucket and provides IAM role permissions for any future stage connection.
+create or replace storage integration s3_int
+type = external_stage
+storage_provider = S3
+enabled = true
+storage_aws_role_arn = 'arn:aws:iam::997948075400:role/akg-snowflake-access-role'
+storage_allowed_locations = ('s3://akg-s3-appointments-s3/base-appointments/','s3://akg-s3-appointments-s3/daily-incremental/')
+STORAGE_AWS_EXTERNAL_ID = '0960';
+
+-- description used to get IAM_USER_ARN code to add to IAM permissions in AWS.
+desc integration s3_int;
+
+create or replace file format csv_fileformat
+type = csv
+field_delimiter =  ','
+skip_header = 1
+null_if = ('NULL','null')
+empty_field_as_null = true;
+```
+
+</details> 
    - **Snowpipe** automatically loads staged data into Snowflake.  
    - Merge/load logic ensures data is appended or updated in the existing table.
 
