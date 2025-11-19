@@ -20,8 +20,7 @@ To address these issues, the project implemented:
    - Only new or updated rows are exported from the CRM, rather than contract-to-date.  
 
 2. **Automated Loading via S3 and Snowpipe**  
-   - Data is staged in an **S3 bucket**.
-<details> <summary><strong>Click to view SQL Script</strong></summary>
+   - Data is staged in an **S3 bucket**. <details> <summary><strong>Click to view SQL Script</strong></summary>
     
 ```sql
 -- creates storage integration. Connects to the s3 bucket and provides IAM role permissions for any future stage connection.
@@ -44,11 +43,11 @@ skip_header = 1
 null_if = ('NULL','null')
 empty_field_as_null = true;
 ```
-
-</details> 
-
+</details>  
    - **Snowpipe** automatically loads staged data into Snowflake.  
    - Merge/load logic ensures data is appended or updated in the existing table.
+
+
 
 3. **Cost Optimization**  
    - **S3 Lifecycle**: After 30 days, older files are moved to deep glacial storage to reduce cost.  
