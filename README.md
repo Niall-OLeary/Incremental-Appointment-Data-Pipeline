@@ -54,7 +54,8 @@ empty_field_as_null = true;
 <summary><strong>Snowpipe Script</strong></summary>
    
 ```sql
--- creating snowpipe. This automatically looks into the s3 bucket and whenever a new file is added, it copies into the stg_daily_appts table.
+-- creating snowpipe. This automatically looks into the s3 bucket and whenever a new file is added,
+-- it copies into the stg_daily_appts table.
 create or replace pipe daily_incremental_pipe
 auto_ingest = TRUE
 AS
@@ -154,7 +155,9 @@ VALUES (
 <summary><strong>Snowflake View Script</strong></summary>
    
 ```sql
--- This view does some basic formatting e.g. var char to date/time. Creating a table and storing this data, which only differs from the staging table by formats, increases cost. Therefore, creating a view which is only called when updating the main appointments table decreases storage costs.
+-- This view does some basic formatting e.g. var char to date/time. Creating a table and storing this data,
+-- which only differs from the staging table by formats, increases cost.
+-- Therefore, creating a view which is only called when updating the main appointments table decreases storage costs.
 create or replace view VW_STG_DAILY_APPOINTMENTS(
 PARTICIPANT_ID,
 APPOINTMENT_ID,
