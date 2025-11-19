@@ -20,7 +20,7 @@ To address these issues, the project implemented:
    - Only new or updated rows are exported from the CRM, rather than contract-to-date.  
 
 2. **Automated Loading via S3 and Snowpipe**  
-   - Data is staged in an **S3 bucket**. <details> <summary><strong>Click to view SQL Script</strong></summary>
+   - Data is staged in an **S3 bucket**.    <details> <summary><strong>Click to view SQL Script</strong></summary>
     
 ```sql
 -- creates storage integration. Connects to the s3 bucket and provides IAM role permissions for any future stage connection.
