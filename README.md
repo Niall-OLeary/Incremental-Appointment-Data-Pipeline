@@ -25,32 +25,6 @@ To address these issues, the project implemented:
    - **Snowpipe** automatically loads staged data into Snowflake.  
    - Merge/load logic ensures data is appended or updated in the existing table.
 <details> 
-<summary><strong>S3 Integration SQL Script</strong></summary>
-   
-```sql
--- creates storage integration. Connects to the s3 bucket and provides IAM role permissions for any future stage connection.
-create or replace storage integration s3_int
-type = external_stage
-storage_provider = S3
-enabled = true
-storage_aws_role_arn = 'arn:aws:iam::997948075400:role/akg-snowflake-access-role'
-storage_allowed_locations = ('s3://akg-s3-appointments-s3/base-appointments/','s3://akg-s3-appointments-s3/daily-incremental/')
-STORAGE_AWS_EXTERNAL_ID = '0960';
-
--- description used to get IAM_USER_ARN code to add to IAM permissions in AWS.
-desc integration s3_int;
-
--- file format used to read csv files
-create or replace file format csv_fileformat
-type = csv
-field_delimiter =  ','
-skip_header = 1
-null_if = ('NULL','null')
-empty_field_as_null = true;
-```
-
-</details>  
-<details> 
 <summary><strong>Snowpipe Script</strong></summary>
    
 ```sql
@@ -238,6 +212,32 @@ where
 5. **Integration Setup**  
    - Demonstrates connecting **AWS to Snowflake** using **IAM roles, integration objects, stages, and Snowpipe**.  
    - Ensures secure, automated data pipeline management.
+<details> 
+<summary><strong>S3 Integration SQL Script</strong></summary>
+   
+```sql
+-- creates storage integration. Connects to the s3 bucket and provides IAM role permissions for any future stage connection.
+create or replace storage integration s3_int
+type = external_stage
+storage_provider = S3
+enabled = true
+storage_aws_role_arn = 'arn:aws:iam::997948075400:role/akg-snowflake-access-role'
+storage_allowed_locations = ('s3://akg-s3-appointments-s3/base-appointments/','s3://akg-s3-appointments-s3/daily-incremental/')
+STORAGE_AWS_EXTERNAL_ID = '0960';
+
+-- description used to get IAM_USER_ARN code to add to IAM permissions in AWS.
+desc integration s3_int;
+
+-- file format used to read csv files
+create or replace file format csv_fileformat
+type = csv
+field_delimiter =  ','
+skip_header = 1
+null_if = ('NULL','null')
+empty_field_as_null = true;
+```
+
+</details>  
 
 ## Impact
 - Reduced load failures and improved reliability of daily data updates  
