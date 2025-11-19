@@ -20,7 +20,9 @@ To address these issues, the project implemented:
    - Only new or updated rows are exported from the CRM, rather than contract-to-date.  
 
 2. **Automated Loading via S3 and Snowpipe**  
-   - Data is staged in an **S3 bucket**. <details> <summary><strong>Click to view SQL Script</strong></summary>
+   - Data is staged in an **S3 bucket**.
+<details> <summary><strong>Click to view SQL Script</strong></summary>
+    
 ```sql
 -- creates storage integration. Connects to the s3 bucket and provides IAM role permissions for any future stage connection.
 create or replace storage integration s3_int
@@ -34,6 +36,7 @@ STORAGE_AWS_EXTERNAL_ID = '0960';
 -- description used to get IAM_USER_ARN code to add to IAM permissions in AWS.
 desc integration s3_int;
 
+-- file format used to read csv files
 create or replace file format csv_fileformat
 type = csv
 field_delimiter =  ','
