@@ -44,6 +44,7 @@ skip_header = 1
 null_if = ('NULL','null')
 empty_field_as_null = true;
 ```
+
 </details>  
    - **Snowpipe** automatically loads staged data into Snowflake.  
    - Merge/load logic ensures data is appended or updated in the existing table.
